@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flower Gallery — Rajat's Garden</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Patrick+Hand&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="g-head">
+  <div>
+    <h1 class="g-title">Flower Gallery</h1>
+    <p class="g-count" id="count"></p>
+  </div>
+  <a class="back" href="index.html">← Back to Garden</a>
+</header>
+<main>
+  <div class="g-grid" id="grid"></div>
+  <nav class="pager" id="pager" aria-label="Pages">
+    <button id="prev" type="button">← Previous</button>
+    <span id="page"></span>
+    <button id="next" type="button">Next →</button>
+  </nav>
+</main>
+<script src="garden.js"></script>
+<script>
+const PER_PAGE = 200;
+const list = allFlowers().slice().reverse();          // newest first
+const pages = Math.max(1, Math.ceil(list.length / PER_PAGE));
+let page = 1;
+document.getElementById('count').textContent = list.length + ' total flower' + (list.length === 1 ? '' : 's');
+function show() {
+  const grid = document.getElementById('grid'); grid.innerHTML = '';
+  const slice = list.slice((page - 1) * PER_PAGE, page * PER_PAGE);
+  if (!slice.length) grid.innerHTML = '<p class="g-empty">No flowers yet — be the first to plant one 🌱</p>';
+  slice.forEach((f, i) => {
+    const t = document.createElement('button'); t.type = 'button'; t.className = 'tile'; t.style.animationDelay = Math.min(i, 60) * 0.012 + 's';
+    t.innerHTML = `<img src="${f.src}" alt="Flower ${list.length - ((page - 1) * PER_PAGE + i)}">`;
+    t.addEventListener('click', () => {                 // tap a flower to see it bigger
+      const z = document.createElement('div'); z.className = 'zoom'; z.innerHTML = `<img src="${f.src}" alt="">`;
+      z.addEventListener('click', () => z.remove()); document.body.appendChild(z);
+    });
+    grid.appendChild(t);
+  });
+  document.getElementById('page').textContent = `Page ${page} of ${pages}`;
+  document.getElementById('prev').disabled = page === 1;
+  document.getElementById('next').disabled = page === pages;
+  scrollTo(0, 0);
+}
+document.getElementById('prev').addEventListener('click', () => { if (page > 1) { page--; show(); } });
+document.getElementById('next').addEventListener('click', () => { if (page < pages) { page++; show(); } });
+addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelector('.zoom')?.remove(); });
+show();
+</script>
+</body>
+</html>

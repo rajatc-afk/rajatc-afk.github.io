@@ -1,0 +1,70 @@
+/* R's Little Garden — laid out on the Figma frame "Garden — desktop 1440" (1440 × 900).
+   Every position below is that frame's pixel value × --u, so the page is the Figma screen scaled to fit. */
+:root{--cream:#F9F0DC;--green:#3E5A2E;--u:min(100vw/1440,100vh/900)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--cream);color:var(--green);font-family:'Bradley Hand','Gochi Hand',cursive;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+img{display:block;user-select:none;-webkit-user-drag:none}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+.stage{position:relative;width:calc(var(--u)*1440);height:calc(var(--u)*900);margin:0 auto}
+@media (min-width:701px){body{display:flex;align-items:center;min-height:100vh}}  /* centre the screen in tall windows */
+.at{position:absolute;left:calc(var(--u)*var(--x));top:calc(var(--u)*var(--y));width:calc(var(--u)*var(--w))}
+
+.title{--x:519.3;--y:72.65;--w:351}
+.title img,.ask img,.btn img{width:100%;height:auto}
+
+/* island */
+.island{--x:54;--y:181;--w:720;aspect-ratio:1200/896;animation:bob 3s ease-in-out infinite}
+.island-img{position:absolute;inset:0;width:100%;height:100%}
+.flowers{position:absolute;inset:0}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(calc(var(--u)*-10))}}
+.flower{position:absolute;width:calc(var(--u)*120);height:calc(var(--u)*120);transform:translate(-50%,-100%) scale(var(--s));transform-origin:center bottom;cursor:pointer}
+.flower .grow{width:100%;height:100%;transform-origin:center bottom;animation:growIn .7s cubic-bezier(.34,1.4,.64,1) both}
+.flower img{width:100%;height:100%;object-fit:contain;transform-origin:center bottom;transition:transform .3s ease-out,translate .3s ease-out}
+.flower:hover img{transform:scale(1.25);translate:0 -8px}
+.flower.new .grow{animation:plantIn .9s cubic-bezier(.34,1.5,.64,1) both}
+@keyframes growIn{0%{transform:scale(.5)}50%{transform:scale(.95)}100%{transform:scale(1)}}
+@keyframes plantIn{0%{transform:scale(0) rotate(-8deg)}60%{transform:scale(1.15) rotate(3deg)}100%{transform:scale(1) rotate(0)}}
+
+/* drawing pad: the torn notebook page */
+.ask{--x:1002.95;--y:227.22;--w:228}
+.paper{--x:915.8;--y:295.9;--w:400.5}
+.paper>img{width:100%;height:auto}
+/* --k = how much the paper is scaled from its Figma size (phones use a smaller page) */
+.paper{--k:1}
+#pad{position:absolute;left:calc(var(--u)*var(--k)*5.2);top:calc(var(--u)*var(--k)*19);width:calc(var(--u)*var(--k)*390);height:calc(var(--u)*var(--k)*223);cursor:crosshair;touch-action:none}
+.clear{position:absolute;right:calc(var(--u)*var(--k)*.3);bottom:calc(var(--u)*var(--k)*21.9);width:calc(var(--u)*var(--k)*37);height:calc(var(--u)*var(--k)*35);font-family:'Gochi Hand',cursive;font-size:calc(var(--u)*20);color:#3E5A2EB8;display:grid;place-items:center;transition:color .2s,transform .3s}
+.clear:hover{color:var(--green);transform:rotate(-40deg)}
+
+.swatches{--x:1326;--y:320;--w:54;height:calc(var(--u)*205)}
+.swatch{position:absolute;left:50%;width:calc(var(--u)*32);height:calc(var(--u)*32);border-radius:50%;translate:-50% -50%;transition:width .2s,height .2s,box-shadow .2s}
+.swatch:hover{width:calc(var(--u)*35);height:calc(var(--u)*35)}
+.swatch.on{width:calc(var(--u)*35);height:calc(var(--u)*35);box-shadow:0 calc(var(--u)*4) calc(var(--u)*10) #0000002E;filter:url(#rough)}
+
+/* buttons are the exported Figma buttons */
+.btn{transition:transform .2s}
+.btn:hover{transform:scale(1.06)}
+.plant{--x:1060;--y:581;--w:114}
+.gallery{--x:580;--y:769;--w:204}
+.plant.nope{animation:nope .4s}
+@keyframes nope{20%,60%{translate:-6px 0}40%,80%{translate:6px 0}}
+.hint{--x:968;--y:640;--w:300;text-align:center;font-family:'Gochi Hand',cursive;font-size:calc(var(--u)*17);color:#3E7B3A;min-height:1.4em}
+
+/* phones: the same pieces, stacked */
+@media (max-width:700px){
+  :root{--u:calc(100vw/420)}
+  .stage{width:100%;height:auto;display:flex;flex-direction:column;align-items:center;padding:calc(var(--u)*34) 0 calc(var(--u)*40)}
+  .at{position:relative;left:auto;top:auto}
+  .island{--w:400;margin-top:calc(var(--u)*10)}
+  .ask{margin-top:calc(var(--u)*10)}
+  .pad-row{display:flex;align-items:flex-start;gap:calc(var(--u)*6);margin-top:calc(var(--u)*14)}
+  .paper{--w:340;--k:.849}
+  .swatches{--w:44;height:calc(var(--u)*205);margin-top:calc(var(--u)*20)}
+  .plant{margin-top:calc(var(--u)*16)}
+  .hint{margin-top:calc(var(--u)*6)}
+  .gallery{margin-top:calc(var(--u)*10)}
+}
+@media (min-width:701px){.pad-row{display:contents}}
+@media (prefers-reduced-motion:reduce){.island,.flower .grow,.flower.new .grow{animation:none}}
