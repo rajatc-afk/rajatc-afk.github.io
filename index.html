@@ -146,8 +146,8 @@ button{font:inherit;color:inherit}
 .projects .pj-scale{position:absolute;left:0;top:0;width:1080px;height:640px;transform:scale(var(--k,1));transform-origin:0 0;
   display:flex;gap:88px;padding:40px 40px 40px 64px;background:var(--c-bg);transition:background .5s;border-radius:16px;box-shadow:0 30px 60px -20px rgba(0,0,0,.6),0 0 0 1px var(--c-ring)}
 .pj-list{flex:1;display:flex;flex-direction:column;min-width:0;padding:8px 0 4px}
-.pj-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:auto}
-.pj-items{display:flex;flex-direction:column;gap:6px;margin:auto 0}
+.pj-head{display:flex;justify-content:flex-start;align-items:baseline;margin-bottom:auto}
+.pj-items{display:flex;flex-direction:column;gap:22px;margin:auto 0}
 .pj-head b{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--c-sub)}
 .pj-count{font:500 12px "JetBrains Mono",monospace;color:var(--c-sub)}
 .pj-count span{color:var(--c-text)}
@@ -155,10 +155,11 @@ button{font:inherit;color:inherit}
 .pj-item:hover{opacity:.55}
 .pj-item.on{opacity:1}
 .pj-item:focus-visible{outline:2px solid #7dd3fc;outline-offset:4px;border-radius:6px}
-.pj-tag{display:inline-block;font:600 10px/1 "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase;padding:4px 7px;border-radius:5px;margin-bottom:7px;color:#141416}
+.pj-tag{display:inline-block;font:600 10px/1 "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase;padding:4px 7px;border-radius:5px;margin-bottom:7px;color:#141416;background:#dcdce1;transition:background .35s}
+.pj-item.on .pj-tag{background:#E4D2EE}   /* only the project in view takes the lavender */
 .pj-title{font-size:22px;font-weight:600;line-height:1.28;color:var(--c-text);letter-spacing:-.01em}
 .pj-blurb{font-size:14px;line-height:1.5;color:var(--c-sub);margin-top:6px;max-height:0;overflow:hidden;transition:max-height .4s}
-.pj-item.on .pj-blurb{max-height:60px}
+.pj-item.on .pj-blurb{max-height:64px}
 .pj-hint{margin-top:auto;padding-top:16px;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--c-faint)}
 .pj-hint svg{width:14px;height:14px}
 .pj-stack{position:relative;width:480px;flex:none;overflow:hidden;border-radius:12px;cursor:ns-resize;touch-action:none}
@@ -169,6 +170,17 @@ button{font:inherit;color:inherit}
 .pj-card .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .pj-card .ph i{position:relative;font:600 11px/1 "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase;opacity:.75}
 .pj-card .ph b{position:relative;font-size:22px;font-weight:700;margin-top:6px}
+.pj-card .ph img{transition:filter .45s,transform .45s}
+.pj-card .ph i{transition:opacity .3s}
+/* hover: the cover blurs and the project summary fades in over it */
+.pj-desc{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:22px;padding:40px;color:#fff;opacity:0;transition:opacity .35s;pointer-events:none}
+.pj-desc p{font-size:17px;line-height:1.6;font-weight:500;text-wrap:pretty}
+.pj-desc span{font-size:13px;font-weight:600;letter-spacing:.02em;opacity:.85}
+@media(hover:hover){
+  .pj-card:hover .ph img{filter:blur(16px) brightness(.45);transform:scale(1.08)}
+  .pj-card:hover .ph i{opacity:0}
+  .pj-card:hover .pj-desc{opacity:1}
+}
 .pj-card .dim{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none}
 .pj-edge{position:absolute;left:0;right:0;height:10px;border-radius:0 0 10px 10px;background:var(--c-edge1);transition:opacity .3s,transform .3s,background .5s}
 
@@ -846,13 +858,24 @@ const ME = {
     { title:"Blinding Lights", artist:"The Weeknd", cover:"assets/albums/blinding-lights.jpg", audio:"assets/albums/blinding-lights.m4a" },
     { title:"Phir Le Aya Dil", artist:"Barfi! · Pritam", cover:"assets/albums/barfi.jpg", audio:"assets/albums/phir-le-aya-dil.m4a" },
   ],
-  // five main projects — swap the placeholders: image:"photos/project-1.jpg", link:"projects/one.html"
+  // four main projects: keywords sit above the title, tag on the card, desc shows on card hover
   projects: [
-    { title:"Project one — a short, punchy title", tag:"Brand identity", blurb:"One line on the problem and what you made.", color:"#F2A33A", image:"", link:"#" },
-    { title:"Project two — a short, punchy title", tag:"Experience design", blurb:"One line on the problem and what you made.", color:"#7C9CFF", image:"", link:"#" },
-    { title:"Project three — a short, punchy title", tag:"Spaces", blurb:"One line on the problem and what you made.", color:"#4FC48A", image:"", link:"#" },
-    { title:"Project four — a short, punchy title", tag:"Research", blurb:"One line on the problem and what you made.", color:"#E9708E", image:"", link:"#" },
-    { title:"Project five — a short, punchy title", tag:"UX / UI", blurb:"One line on the problem and what you made.", color:"#B58CFF", image:"", link:"#" },
+    { title:"Licious Discover", keywords:"Service design · Kiosk UX · Phygital retail", tag:"System design",
+      blurb:"A supermarket-to-doorstep system that brings Licious into stores that don’t sell fresh meat.",
+      desc:"Most supermarkets don’t sell meat, so shoppers leave mid-trip to find it. Licious Discover puts a screen in the aisle: pick by dish or by cut, and the order reaches home from the nearest Licious store. Nothing is stored on site, the supermarket earns without handling meat, and Licious wins first orders without paying platform commission.",
+      color:"#F2A33A", image:"photos/project-1.webp", link:"projects/licious.html" },
+    { title:"Syntra", keywords:"Phygital kiosk · Retail tech · AR/VR", tag:"Retail tech",
+      blurb:"An interactive perfume finder you play like an instrument.",
+      desc:"Shoppers arrive with a mood, but stores answer in names and notes, and after a few sprays every scent blurs. Syntra is a kiosk with a knob and three sliders. Describe a feeling and the screen finds your ZARA scent, double-press to step into its world, and hold to print a scent ticket that comes alive in AR.",
+      color:"#7C9CFF", image:"photos/project-2.webp", link:"projects/syntra.html" },
+    { title:"Khajuri", keywords:"Brand identity · Packaging · Craft", tag:"Branding and packaging",
+      blurb:"A brand and packaging system for the handmade date-palm brooms of Madhya Pradesh.",
+      desc:"The khajur broom lasts long, cuts no tree and goes back to the soil, yet plastic quietly replaced it. Khajuri gives the craft of the Khajur Vanshi artisans a brand for today’s homes: every broom carries its maker’s name and a story in Gond art. From nature, back to nature.",
+      color:"#4FC48A", image:"photos/project-3.webp", link:"projects/khajuri.html" },
+    { title:"Pehli Payri Temple", keywords:"Wayfinding · Signage · Visual identity", tag:"Signage and wayfinding design",
+      blurb:"An identity and sign system for a Shiva shrine in the Satpura hills of Chhindwara.",
+      desc:"Pehli Payri is where pilgrims bathe before the Chauragarh yatra: a few hundred visitors on a normal day, up to a lakh during the Mahashivratri mela. From on-site research and pilgrim journeys came a visual identity, a sign family and a temporary mela kit that work on an ordinary Tuesday and on the busiest day of the year.",
+      color:"#E9708E", image:"photos/project-4.webp", link:"projects/pehli-payri.html" },
   ],
   scratchLink: "mailto:you@example.com",
   resume: "Rajat_Chaple_Resume.pdf",            // e.g. "resume.pdf" (put the file next to index.html) — opens in a new tab
@@ -1066,14 +1089,14 @@ const proj={p:0,target:0,raf:0,el:null,snapT:0};
   const el=place(h(`<div class="item" data-fixed><div class="lift">
     <div class="projects"><div class="pj-scale">
       <div class="pj-list">
-        <div class="pj-head"><b>Selected work</b><span class="pj-count"><span>01</span> / ${String(N).padStart(2,'0')}</span></div>
-        <div class="pj-items">${P.map((x,i)=>`<button class="pj-item" data-i="${i}"><span class="pj-tag" style="background:${x.color}">${x.tag}</span><div class="pj-title">${x.title}</div><div class="pj-blurb">${x.blurb}</div></button>`).join('')}</div>
+        <div class="pj-head"><span class="pj-count"><span>01</span> / ${String(N).padStart(2,'0')}</span></div>
+        <div class="pj-items">${P.map((x,i)=>`<button class="pj-item" data-i="${i}"><span class="pj-tag">${x.keywords||x.tag}</span><div class="pj-title">${x.title}</div><div class="pj-blurb">${x.blurb}</div></button>`).join('')}</div>
         <div class="pj-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="3" width="10" height="18" rx="5"/><path d="M12 7v3"/></svg>Scroll the cards to explore</div>
       </div>
       <div class="pj-stack">
         <div class="pj-edge" style="top:${28+500+5}px;transform:scaleX(.94)"></div><div class="pj-edge" style="top:${28+500+15}px;transform:scaleX(.88);background:var(--c-edge2)"></div>
         ${P.map((x,i)=>`<a class="pj-card" href="${x.link}" draggable="false" data-i="${i}" style="z-index:${i+2};background:linear-gradient(150deg,${x.color},#141416 140%)">
-          <div class="ph">${x.image?`<img src="${x.image}" alt="${x.title}" draggable="false">`:''}<i>${String(i+1).padStart(2,'0')} · ${x.tag}</i><b>${x.image?'':'Project image'}</b></div><div class="dim"></div></a>`).join('')}
+          <div class="ph">${x.image?`<img src="${x.image}" alt="${x.title}" draggable="false">`:''}<i>${x.tag}</i><b>${x.image?'':'Project image'}</b></div>${x.desc?`<div class="pj-desc"><p>${x.desc}</p><span>View case study <span aria-hidden="true">→</span></span></div>`:''}<div class="dim"></div></a>`).join('')}
       </div>
     </div></div></div></div>`), [0,0,0], $('#workSlot'));
   proj.el=el;
@@ -1100,7 +1123,8 @@ const proj={p:0,target:0,raf:0,el:null,snapT:0};
   proj.from=0;
   proj.snap=()=>{ const d=proj.target-proj.from; proj.go(Math.abs(d)>.12?proj.from+Math.sign(d)*Math.max(1,Math.round(Math.abs(d))):proj.from); proj.from=Math.round(proj.target); };   /* whole cards travelled, at least one */
   proj.render(); proj.ready=true;
-  items.forEach(it=>it.addEventListener('click',()=>{proj.from=+it.dataset.i;proj.go(+it.dataset.i)}));
+  items.forEach(it=>it.addEventListener('click',()=>{   // the titles only switch the card; the card itself opens the case study
+    proj.from=+it.dataset.i;proj.go(+it.dataset.i)}));
   // wheel / trackpad over the projects card scrolls the stack; at the first/last project it hands the scroll back to the board
   el.addEventListener('wheel',e=>{
     const d=Math.abs(e.deltaY)>=Math.abs(e.deltaX)?e.deltaY:0; if(!d) return;
