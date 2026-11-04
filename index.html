@@ -304,28 +304,14 @@ button{font:inherit;color:inherit}
 .book .bt{font-weight:800;line-height:1.02;font-size:19px;letter-spacing:-.02em;position:relative}
 .book .ba{font-size:11px;font-weight:600;opacity:.8;position:relative}
 
-/* ---------- Drag handle (scratch card) ---------- */
-.handle{position:absolute;left:50%;top:-14px;translate:-50% 0;width:56px;height:20px;border-radius:10px;background:#fff;
-  display:grid;place-items:center;cursor:grab;box-shadow:0 4px 10px rgba(0,0,0,.2);opacity:0;transition:opacity .2s}
-.item:hover .handle{opacity:1}
-.handle::before{content:"";width:24px;height:6px;background:radial-gradient(circle,#999 1.5px,transparent 2px) 0 0/6px 6px}
-
-/* ---------- Scratch card ---------- */
-.scratch{width:360px;height:360px;position:relative;border-radius:10px;
-  cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36'%3E%3Ccircle cx='18' cy='18' r='15' fill='%23f5c84c' stroke='%23b8860b' stroke-width='3'/%3E%3Ctext x='18' y='24' font-size='16' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%23b8860b'%3E%E2%98%85%3C/text%3E%3C/svg%3E") 18 18,crosshair}
-.scratch canvas{position:absolute;inset:0;width:100%;height:100%;z-index:2;border-radius:10px;touch-action:none;transition:opacity .6s}
-.scratch .under{position:absolute;inset:0;border-radius:10px;overflow:hidden;background:#0d0d0f;display:flex;align-items:center;justify-content:center;
-  text-decoration:none;color:#fff;box-shadow:0 30px 50px -20px rgba(0,0,0,.5)}
-.scratch .marq{position:absolute;left:0;white-space:nowrap;font-size:96px;font-weight:800;letter-spacing:-.04em;line-height:1;
-  animation:marq 3s linear infinite;animation-play-state:paused;opacity:.95}
-.scratch .marq.top{top:14px}
-.scratch .marq.bot{bottom:14px;animation-direction:reverse;color:transparent;-webkit-text-stroke:2px #fff}
-.scratch:hover .marq{animation-play-state:running}
-@keyframes marq{to{transform:translateX(-50%)}}
-.scratch .center{position:relative;z-index:1;text-align:center;background:#ff5a36;color:#111;padding:16px 20px;border-radius:14px;rotate:-4deg;
-  box-shadow:0 10px 0 #111}
-.scratch .center b{display:block;font-size:26px;letter-spacing:-.02em}
-.scratch .center span{font-size:13px;font-weight:600}
+/* ---------- Other-work cards (Extras mat) ---------- */
+.work-card{position:relative;display:block;width:296px;height:386px;padding:78px 22px 22px;border-radius:30px;background:#fff center/cover no-repeat;
+  color:#141416;text-decoration:none;box-shadow:0 30px 50px -20px rgba(30,0,50,.5);transition:transform .35s cubic-bezier(.3,1.4,.5,1)}
+.item:hover .work-card{transform:translateY(-6px) scale(1.02)}
+.wc-t{display:block;font-size:30px;line-height:1.1;font-weight:600;letter-spacing:-.01em}
+.work-card.art{padding:20px 30px 30px}   /* a card with its own artwork (exported from Figma); colours come from WORKS */
+.wc-m{display:block;min-height:13px;margin-bottom:6px;font-size:11px;line-height:1.2;font-weight:500;letter-spacing:.08em;text-transform:uppercase;opacity:.7}
+.wc-d{display:block;margin-top:8px;max-width:236px;font-size:13px;line-height:1.4;opacity:.85}
 
 /* ---------- Flip clock ---------- */
 .clock{display:flex;gap:18px;padding:18px}
@@ -358,21 +344,7 @@ button{font:inherit;color:inherit}
   letter-spacing:.06em;text-transform:uppercase;opacity:0;transition:opacity .2s;pointer-events:none}
 .logo-tile:hover .mat{opacity:1}
 
-/* ---------- Garden (mini island on the board; opens the full garden in a panel) ---------- */
-.garden-card{width:380px;padding:14px 14px 16px;background:#F9F0DC;border-radius:14px;cursor:pointer;
-  box-shadow:0 30px 50px -20px rgba(0,0,0,.5),0 0 0 1px rgba(62,90,46,.08)}
-.g-isl{position:relative;width:100%;aspect-ratio:1200/896;animation:gBob 3s ease-in-out infinite}
-.g-isl>img{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.g-fl{position:absolute;inset:0;pointer-events:none}
-.g-fl .fl{position:absolute;width:16.667%;aspect-ratio:1;transform:translate(-50%,-100%) scale(var(--s));transform-origin:center bottom}
-.g-fl .fl img{width:100%;height:100%;object-fit:contain;animation:gGrow .7s cubic-bezier(.34,1.4,.64,1) both}
-@keyframes gBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-@keyframes gGrow{0%{transform:scale(.5)}50%{transform:scale(.95)}100%{transform:scale(1)}}
-.g-cap{display:flex;flex-direction:column;align-items:center;gap:2px;margin-top:4px}
-.g-cap img{width:72%;height:auto}
-.g-cap span{font-family:"Gochi Hand",cursive;font-size:17px;color:#3E7B3A;white-space:nowrap;transition:transform .2s}
-.garden-card:hover .g-cap span{transform:translateX(3px)}
-
+/* ---------- Garden panel (opens at #garden) ---------- */
 #garden{position:fixed;inset:0;z-index:40;display:grid;place-items:center;background:rgba(8,12,20,.55);
   backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .25s}
 #garden.open{opacity:1;pointer-events:auto}
@@ -500,9 +472,9 @@ html[data-theme="night"] .mat{box-shadow:0 2px 4px rgba(0,0,0,.3),0 14px 28px -1
 #pg{position:fixed;inset:0;z-index:45;overflow:hidden;user-select:none;-webkit-user-select:none;background:var(--board);visibility:hidden;opacity:0;transition:opacity .3s,visibility 0s .3s;cursor:grab;touch-action:none}
 #pg.open{visibility:visible;opacity:1;transition:opacity .3s}
 #pg.panning{cursor:grabbing}
-#pg .pg-board{position:absolute;left:0;top:0;width:2000px;height:2480px;will-change:transform}
+#pg .pg-board{position:absolute;left:0;top:0;width:2000px;height:2000px;will-change:transform}
 #pg .pg-board .surface{border-radius:0;border:0}
-#pg .pg-board .stage{position:absolute;left:400px;top:330px;margin:0}
+#pg .pg-board .stage{position:absolute;left:0;top:0;margin:0}
 .pg-title{position:fixed;left:20px;top:18px;z-index:2;display:flex;flex-direction:column;gap:2px;padding:10px 16px;border-radius:14px;background:rgba(255,255,255,.92);color:#111113;box-shadow:0 10px 24px rgba(40,10,60,.25);pointer-events:none}
 .pg-title b{font-size:15px}.pg-title span{font-size:12px;color:#5b5b63}
 .pg-narrow{display:none}
@@ -793,6 +765,7 @@ html.note-open #dock{opacity:0;pointer-events:none}
   <button class="d" data-act="sound" data-tip="Sound"><svg id="snd" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg></button>
 </nav>
 
+<script src="extras/works.js"></script>
 <script>
 /* =========================================================================
    ✏️  EDIT EVERYTHING ABOUT YOU HERE
@@ -830,21 +803,24 @@ const ME = {
   books: [
     { title:"The Palace of Illusions",       author:"Chitra Banerjee Divakaruni", bg:"#1d4a26", fg:"#fff", cover:"assets/books/palace-of-illusions.webp", ratio:2000/1276, w:128 },
   ],
-  // images pinned on the mat: [file, width, style, x, y, rotation, caption]  — style: "print" (white border) or "poster" (taped)
+  // prints on the Extras mat: [file, image width, style, image height, caption]  — style: "print" (white border) or "poster" (taped)
+  // positions live in PLAY.pins (same order); sizes match the Figma "Extras — endless mat" frame
   pins: [
-    // work — left of the profile card
-    ["gallery/g01.jpg", 250, "print",  640,  850,  -4, "Campus, in isometric"],   // NID isometric sketch
-    ["gallery/g05.jpg", 220, "print",  330,  900,   5, "Café scale model"],   // café model
-    ["gallery/g07.jpg", 200, "print",  360, 1310,  -6, "Packaging prototype"],   // packaging
-    ["gallery/g08.jpg", 200, "print",  660, 1330,   4, "Workshop bench days"],   // workshop bench
-    ["gallery/g06.jpg", 210, "print",  500, 1700,  -3, "Indigo textile display"],   // indigo garment
-    ["gallery/g12.jpg", 320, "print",  640, 2330,   2, "Pavilion concept render"],   // pavilion render
-    // taste — film posters above the profile card
-    ["gallery/g04.jpg", 190, "poster", 1900, 470,   6, "Objects tell stories"],   // Objectified
-    // life — right edge
-    ["gallery/g11.jpg", 190, "print", 2780,  380,   6, "Sunrise, window seat"],   // plane window
-    ["gallery/g09.jpg", 190, "print", 2790, 1200,  -5, "Late night rides"],   // night ride
-    ["gallery/g10.jpg", 180, "print", 2770, 1880,   4, "Written in ink"],   // tattoo
+    ["gallery/g10.jpg",  180, "print", 240, "Written in ink"],   // tattoo
+    ["gallery/g13.webp", 200, "print", 267, "Into the fog"],   // forest canopy
+    ["gallery/g15.webp", 180, "print", 180, "Through a telescope"],   // moon
+    ["gallery/g09.jpg",  190, "print", 253, "Late night rides"],   // night ride
+    ["gallery/g17.webp", 250, "print", 190, "Where it began"],   // family photo
+    ["gallery/g14.webp", 200, "print", 267, "Carved in stone"],   // temple
+    ["gallery/g05.jpg",  220, "print", 293, "Café scale model"],   // café model
+    ["gallery/g08.jpg",  200, "print", 267, "Workshop bench days"],   // workshop bench
+    ["gallery/g12.jpg",  320, "print", 240, "Scaled model for yoga centre"],   // pavilion model
+    ["gallery/g16.webp", 190, "print", 286, "Comfort food"],   // khichdi
+    ["gallery/g11.jpg",  190, "print", 253, "Sunrise, window seat"],   // plane window
+  ],
+  // die-cut stickers on the Extras mat: [file, width, description]
+  playStickers: [
+    ["assets/sticker-laptop.webp", 220, "Ink drawing of me lying on the grass, working on a laptop, shoes kicked off"],
   ],
   // taped up around the profile card on the first screen: [file, width, caption, tape at "top" | "bottom"]
   heroPins: [
@@ -880,7 +856,6 @@ const ME = {
       desc:"Pehli Payri is where pilgrims bathe before the Chauragarh yatra: a few hundred visitors on a normal day, up to a lakh during the Mahashivratri mela. From on-site research and pilgrim journeys came a visual identity, a sign family and a temporary mela kit that work on an ordinary Tuesday and on the busiest day of the year.",
       color:"#E9708E", image:"photos/project-4.webp", link:"projects/pehli-payri.html" },
   ],
-  scratchLink: "mailto:you@example.com",
   resume: "Rajat_Chaple_Resume.pdf",            // e.g. "resume.pdf" (put the file next to index.html) — opens in a new tab
 };
 
@@ -890,10 +865,15 @@ const HERO = { w:1440, h:756, profile:[507,110,0], photos:[[297,110,5],[294,435,
   // same order as ME.heroPins / ME.albums / ME.books; albums: [x, y, rotation, which way the sleeve slides]
   pins:[[78,317,-8]], albums:[[1205,669,9,-1],[60,42,15,1]], books:[[1236,12,-10]], stickers:[[1226,321,10],[351,711,-11]],
   clock:[931,751,13], logo:[72,609,12] };
-const PLAY = { w:1200, h:1780,
+// the Extras stage covers the whole 2000 × 2000 mat, so these are mat coordinates, copied from the Figma frame
+// (w is 32px under the mat so the stage isn't zoomed to fit)
+const PLAY = { w:1968, h:2000,
   // same order as ME.pins
-  pins:[[30,400,-4],[270,840,5],[40,1250,-6],[720,840,4],[680,1240,-3],[300,1260,2],[520,70,-4],[20,870,6],[960,850,-5],[950,1250,4]],
-  garden:[330,420,-3], scratch:[790,420,3] };
+  pins:[[673,97,1.6],[1056,81,-6],[323,302,3],[1489,274,8.4],[220,713,4],[1484,756,-4],
+        [229,1105,-16.1],[1523,1275,4],[385,1560,2],[888,1474,5],[1231,1572,-8.7]],
+  // same order as WORKS in extras/works.js
+  works:[[565,478,5.2],[1100,473,-8.5],[590,1066,-14.8],[1142,1067,11.3]],
+  stickers:[[913,757,.2]] };
 
 
 /* =========================================================================
@@ -1151,9 +1131,22 @@ ME.photos.forEach((p,i)=>{
   el.addEventListener('pointerleave',()=>{tilt.style.transform='';glare.style.opacity=0;});
 });
 
+// --- Other work: colour cards on the Extras mat; tap one to open its long scroll (extras/view.html)
+WORKS.forEach((w,i)=>{
+  const el=place(h(`<div class="item work"><a class="lift work-card${w.card?' art':''}" href="extras/view.html?w=${w.id}" draggable="false"
+     ${w.card?`style="background-image:url(extras/${w.id}/card.webp);background-color:${w.bg};color:${w.ink}"`:''}><span class="wc-m">${w.module||''}</span><b class="wc-t">${w.title}</b>${w.desc?`<span class="wc-d">${w.desc}</span>`:''}</a></div>`), PLAY.works[i], playStage);
+  const link=$('a',el); link.addEventListener('click',e=>e.preventDefault());   // a drag shouldn't open it; taps go through _onTap
+  el._onTap=()=>{ location.href=link.href; };
+});
+
+// --- Stickers on the Extras mat
+ME.playStickers.forEach(([src,w,alt],i)=>{
+  place(h(`<div class="item"><div class="lift sticker"><img src="${src}" alt="${alt}" draggable="false" loading="lazy" style="width:${w}px"></div></div>`), PLAY.stickers[i], playStage);
+});
+
 // --- Pinned images (draggable; spring back home like everything else)
-ME.pins.forEach(([src,w,kind,x,y,r,cap],i)=>{
-  place(h(`<div class="item pin ${kind}"><div class="lift"><div class="pf" style="--tape:${i%2?4:-3}deg" data-cap="${cap||''}"><img src="${src}" alt="${cap||''}" draggable="false" loading="lazy" style="width:${w}px">${kind==='print'&&cap?`<span class="pcap">${cap}</span>`:''}</div></div></div>`), PLAY.pins[i], playStage);
+ME.pins.forEach(([src,w,kind,ih,cap],i)=>{
+  place(h(`<div class="item pin ${kind}"><div class="lift"><div class="pf" style="--tape:${i%2?4:-3}deg" data-cap="${cap||''}"><img src="${src}" alt="${cap||''}" draggable="false" loading="lazy" style="width:${w}px;height:${ih}px;object-fit:cover">${kind==='print'&&cap?`<span class="pcap">${cap}</span>`:''}</div></div></div>`), PLAY.pins[i], playStage);
 });
 
 // --- Posters taped up on the first screen
@@ -1234,23 +1227,6 @@ ME.books.forEach((b,i)=>{
   </div></div></div>`), HERO.books[i], heroStage);
 });
 
-// --- Garden: mini island with the planted flowers; tap to open the full garden (garden/index.html)
-const GARDEN_KEY='rajat-garden-flowers-v2', GARDEN_TOP=142, GARDEN_BOTTOM=616;   // same storage + island geometry as garden/garden.js
-{
-  const el=place(h(`<div class="item"><div class="lift garden-card" title="Open the garden">
-     <div class="g-isl"><img src="garden/island.png" alt="" draggable="false"><div class="g-fl"></div></div>
-     <div class="g-cap"><img src="garden/art/title.svg" alt="R’s Little Garden" draggable="false"><span>draw a flower &amp; plant it →</span></div>
-  </div></div>`), PLAY.garden, playStage);
-  const fl=$('.g-fl',el);
-  window.renderMiniGarden=()=>{
-    let list=[]; try{list=JSON.parse(localStorage.getItem(GARDEN_KEY))||[]}catch(e){}
-    fl.innerHTML=list.slice(-24).map((f,i)=>{const t=Math.max(0,Math.min(1,(f.y-GARDEN_TOP)/(GARDEN_BOTTOM-GARDEN_TOP)));
-      return `<div class="fl" style="left:${f.x/12}%;top:${f.y/8.96}%;--s:${(.5+.38*t).toFixed(3)};z-index:${Math.round(f.y)}"><img src="${f.src}" alt="" style="animation-delay:${i*.04}s"></div>`}).join('');
-  };
-  renderMiniGarden();
-  addEventListener('storage',e=>{if(e.key===GARDEN_KEY)renderMiniGarden()});   // updates live while someone plants in the panel
-  el._onTap=()=>openGarden();
-}
 const gardenEl=$('#garden'), gardenFrame=$('#garden iframe');
 function openGarden(){
   if(!gardenFrame.src) gardenFrame.src='garden/index.html';
@@ -1259,7 +1235,7 @@ function openGarden(){
 }
 function closeGarden(){
   if(!gardenEl.classList.contains('open')) return;
-  gardenEl.classList.remove('open'); gardenEl.setAttribute('aria-hidden','true'); renderMiniGarden();
+  gardenEl.classList.remove('open'); gardenEl.setAttribute('aria-hidden','true');
   if(location.hash==='#garden') history.replaceState(null,'',location.pathname+location.search);
 }
 $('#garden .gm-x').addEventListener('click',closeGarden);
@@ -1267,30 +1243,6 @@ gardenEl.addEventListener('click',e=>{if(e.target===gardenEl)closeGarden()});
 addEventListener('keydown',e=>{if(e.key==='Escape')closeGarden()});
 gardenFrame.addEventListener('load',()=>{try{gardenFrame.contentWindow.addEventListener('keydown',e=>{if(e.key==='Escape')closeGarden()})}catch(_){}});
 if(location.hash==='#garden') openGarden();
-
-// --- Scratch-off card
-{
-  const el=place(h(`<div class="item"><div class="lift scratch" data-no-drag>
-     <span class="handle" data-handle title="Drag"></span>
-     <a class="under" href="${ME.scratchLink}">
-       <div class="marq top">SAY HI ✦ SAY HI ✦ SAY HI ✦ SAY HI ✦ SAY HI ✦ SAY HI ✦&nbsp;</div>
-       <div class="center"><b>You found it!</b><span>I'm open to work — let's talk ↗</span></div>
-       <div class="marq bot">SAY HI ✦ SAY HI ✦ SAY HI ✦ SAY HI ✦ SAY HI ✦ SAY HI ✦&nbsp;</div>
-     </a><canvas width="720" height="720"></canvas></div></div>`), PLAY.scratch, playStage);
-  const cv=$('canvas',el), ctx=cv.getContext('2d'); ctx.scale(2,2);
-  const g=ctx.createLinearGradient(0,0,360,360); g.addColorStop(0,'#cfd4da');g.addColorStop(.45,'#f3f5f7');g.addColorStop(.55,'#b9c0c8');g.addColorStop(1,'#e8ebee');
-  ctx.fillStyle=g; ctx.beginPath(); ctx.roundRect(0,0,360,360,10); ctx.fill();
-  for(let i=0;i<2600;i++){ctx.fillStyle=`rgba(0,0,0,${Math.random()*.06})`;ctx.fillRect(Math.random()*360,Math.random()*360,1.5,1.5);}
-  const label=()=>{ctx.fillStyle='#6b7280';ctx.textAlign='center';ctx.font='800 30px Inter';ctx.fillText('SCRATCH ME',180,172);ctx.font='600 15px Inter';ctx.fillText('there\'s something underneath ✦',180,200);};
-  document.fonts.ready.then(label);
-  let on=false,last=null,done=false,ticks=0;
-  const pos=e=>{const r=cv.getBoundingClientRect();return[(e.clientX-r.left)*360/r.width,(e.clientY-r.top)*360/r.height]};
-  const check=()=>{const d=ctx.getImageData(0,0,720,720).data;let c=0;for(let i=3;i<d.length;i+=64)if(d[i]===0)c++;if(c/(d.length/64)>.5){done=true;cv.style.opacity=0;cv.style.pointerEvents='none';blip(880,.25,'sine',.08);setTimeout(()=>blip(1320,.3,'sine',.07),120);}};
-  cv.addEventListener('pointerdown',e=>{e.stopPropagation();e.preventDefault();on=true;last=pos(e);cv.setPointerCapture(e.pointerId)});
-  cv.addEventListener('pointermove',e=>{if(!on||done)return;const p=pos(e);ctx.globalCompositeOperation='destination-out';ctx.lineWidth=46;ctx.lineCap='round';
-    ctx.beginPath();ctx.moveTo(...last);ctx.lineTo(...p);ctx.stroke();last=p;if(++ticks%6===0){blip(300+Math.random()*200,.03,'sawtooth',.012);} if(ticks%20===0)check();});
-  cv.addEventListener('pointerup',()=>{on=false;if(!done)check()});
-}
 
 // --- Flip clock (live time)
 {
@@ -1372,7 +1324,7 @@ window.addEventListener('pointerup',e=>{
   })();
 });
 
-// taps on phones (where items don't drag) still shake the toolbox / open the garden
+// taps on phones (where items don't drag) still shake the toolbox / open a work card
 document.addEventListener('click',e=>{ const el=e.target.closest('.item'); if(el&&el._onTap&&performance.now()-(el._tapT||0)>500){ ac(); el._onTap(); } });
 
 flipCard.addEventListener('click',flipProfile);
@@ -1403,7 +1355,7 @@ function fitStages(){
     st._z=z; st.style.zoom=wide&&z<1?z:''; st.style.width=wide?L.w+'px':''; st.style.height=wide?L.h+'px':'';
     [...st.children].forEach(el=>{ const s=el._st; if(!s) return;
       [s.hx,s.hy]=wide?s.lay:[0,0]; s.x=s.hx; s.y=s.hy; el.style.zoom=''; el._z=1;
-      if(!wide){ const w=el.offsetWidth, two=el.matches('.polaroid,.pin'), iz=Math.min(1,(two?(avail-14)/2:avail)/w); if(iz<1){ el.style.zoom=iz; el._z=iz; } }
+      if(!wide){ const w=el.offsetWidth, two=el.matches('.polaroid,.pin,.work,#playStage>.item:has(.sticker)'), iz=Math.min(1,(two?(avail-14)/2:avail)/w); if(iz<1){ el.style.zoom=iz; el._z=iz; } }
       apply(el); });
   });
   const tb=$('#tbSlot .item'); if(tb){ const iz=Math.min(1,(innerWidth-40)/460); tb.style.zoom=iz<1?iz:''; tb._z=iz; }
@@ -1490,14 +1442,14 @@ if(lensOK){
    Desktop: drag the empty mat (or scroll / trackpad) to look around. Phones: it scrolls.
    ========================================================================= */
 {
-  const pg=$('#pg'), board=$('.pg-board',pg), BW=2000, BH=2480, root=document.documentElement;
+  const pg=$('#pg'), board=$('.pg-board',pg), BW=2000, BH=2000, root=document.documentElement;
   const pan={x:0,y:0}; let pd=null;
   const wide=()=>innerWidth>=900;
   const render=()=>{ if(!wide()){ board.style.transform=''; return; }
     pan.x=Math.min(0,Math.max(innerWidth-BW,pan.x)); pan.y=Math.min(0,Math.max(innerHeight-BH,pan.y));
     board.style.transform=`translate(${pan.x}px,${pan.y}px)`; };
   window.openPg=()=>{ ac(); sfx.click(); pg.classList.add('open'); pg.setAttribute('aria-hidden','false'); root.classList.add('pg-open');
-    pan.x=(innerWidth-BW)/2; pan.y=-250; render(); fitStages(); setTimeout(()=>$('.pg-x',pg).focus({preventScroll:true}),50); };
+    pan.x=(innerWidth-BW)/2; pan.y=(innerHeight-BH)/2; render(); fitStages(); setTimeout(()=>$('.pg-x',pg).focus({preventScroll:true}),50); };
   const closePg=()=>{ if(!pg.classList.contains('open')) return; pg.classList.remove('open'); pg.setAttribute('aria-hidden','true'); root.classList.remove('pg-open'); $('#openPg').focus({preventScroll:true}); };
   $('#openPg').addEventListener('click',openPg);
   $('#openPg').addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openPg(); } });
@@ -1508,6 +1460,7 @@ if(lensOK){
   ['pointerup','pointercancel'].forEach(t=>pg.addEventListener(t,()=>{ pd=null; pg.classList.remove('panning'); }));
   pg.addEventListener('wheel',e=>{ if(!wide()) return; e.preventDefault(); pan.x-=e.deltaX; pan.y-=e.deltaY; render(); },{passive:false});
   addEventListener('resize',render);
+  if(location.hash==='#extras'){ history.replaceState(null,'',location.pathname+location.search); requestAnimationFrame(openPg); }
 }
 
 /* =========================================================================

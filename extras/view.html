@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../favicon-48.png" type="image/png" sizes="48x48">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<title>Rajat Chaple</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0}
+  html{background:#fff}
+  body{background:#fff;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;color:#141416}
+  /* same frame as the case studies: a 1440px artboard scaled to the window, never reflowed */
+  .scroll{width:min(1312px,100% - 64px);margin:96px auto 120px;border-radius:24px;overflow:hidden;line-height:0}
+  .scroll img{display:block;width:100%;height:auto}
+  .scroll.has-video{position:relative}
+  /* the film sits exactly over its poster in the scroll; a click swaps the poster for the player */
+  .film{position:absolute;border:0;padding:0;background:transparent;cursor:pointer;border-radius:.6%/1.2%;overflow:hidden}
+  .film:focus-visible{outline:3px solid #fff;outline-offset:3px}
+  .film video{display:block;width:100%;height:100%;object-fit:cover;background:#000}
+  .soon{width:min(1312px,100% - 64px);margin:96px auto 120px;min-height:60vh;border-radius:24px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:12px;text-align:center;padding:40px;background:#f3f3f5;color:#141416}
+  .soon h1{font-size:clamp(32px,5vw,56px);font-weight:600;letter-spacing:-.02em}
+  .soon p{font-size:17px;color:#5c5c63}
+  .back{position:fixed;top:20px;left:50%;translate:-50% 0;z-index:5;display:flex;align-items:center;gap:8px;
+    padding:10px 18px 10px 14px;border-radius:999px;background:#141416;color:#fff;font:500 14px/1 Inter,sans-serif;text-decoration:none;
+    box-shadow:0 6px 20px rgba(0,0,0,.18),0 0 0 1px rgba(255,255,255,.16);transition:transform .2s}   /* the thin ring keeps it visible on dark scrolls */
+  .back:hover{transform:translateY(-1px)}
+  .back svg{width:16px;height:16px}
+  @media(max-width:700px){ .scroll,.soon{width:calc(100% - 32px);margin-top:76px;border-radius:14px} }
+</style>
+</head>
+<body>
+<a class="back" href="../index.html#extras"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Back to extras</a>
+<main id="main"></main>
+<script src="works.js"></script>
+<script>
+  const id = new URLSearchParams(location.search).get('w');
+  const w = WORKS.find(x => x.id === id) || WORKS[0];
+  const main = document.getElementById('main');
+  document.title = `${w.title} — Rajat Chaple`;
+  if (w.pages) {
+    const [sw, sh] = w.strip || [2880, 4080];
+    main.className = 'scroll'; main.setAttribute('aria-label', w.title);
+    main.style.maxWidth = sw / 2 + 'px';   // never wider than its artboard
+    if (w.page) document.body.style.background = document.documentElement.style.background = w.page;
+    main.innerHTML = Array.from({ length: w.pages }, (_, i) => {
+      const h = i === w.pages - 1 && w.last ? w.last : sh;
+      return `<img src="${w.id}/${String(i).padStart(2, '0')}.webp" width="${sw}" height="${h}" alt="${i ? '' : w.title}"${i > 1 ? ' loading="lazy"' : ''}>`;
+    }).join('');
+    if (w.video) {
+      // place the film over its poster: x and width against the artboard width, y and height against the scroll's full height
+      const W = sw / 2, H = (sh * (w.pages - 1) + (w.last || sh)) / 2, [bx, by, bw, bh] = w.video.box;
+      const film = document.createElement('button');
+      film.type = 'button'; film.className = 'film'; film.setAttribute('aria-label', `Play the ${w.title} film`);
+      Object.assign(film.style, { left: bx / W * 100 + '%', width: bw / W * 100 + '%', top: by / H * 100 + '%', height: bh / H * 100 + '%' });
+      film.addEventListener('click', () => {
+        const box = document.createElement('div');   // a plain box, so the player's own controls get the clicks
+        box.className = 'film'; box.style.cssText = film.style.cssText; box.style.cursor = 'auto';
+        box.innerHTML = `<video src="${w.id}/${w.video.src}" controls autoplay playsinline></video>`;
+        film.replaceWith(box); box.querySelector('video').focus();
+      }, { once: true });
+      main.classList.add('has-video'); main.appendChild(film);
+    }
+  } else {
+    main.className = 'soon';
+    main.innerHTML = `<h1>${w.title}</h1><p>The long scroll for this one is on its way.</p>`;
+  }
+</script>
+</body>
+</html>
