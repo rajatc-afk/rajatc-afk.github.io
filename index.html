@@ -10,7 +10,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,300&family=JetBrains+Mono:wght@500;700&family=Caveat:wght@600&family=Gochi+Hand&family=Noto+Sans+Devanagari:wght@700&display=swap" rel="stylesheet" />
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<!-- three.js r160 is kept in assets/vendor so the site never depends on an outside CDN -->
+<script type="importmap">{"imports":{"three":"./assets/vendor/three/three.module.js","three/addons/":"./assets/vendor/three/addons/"}}</script>
 <style>
 /* =========================================================
    THEME TOKENS
@@ -1246,7 +1247,6 @@ $('#garden .gm-x').addEventListener('click',closeGarden);
 gardenEl.addEventListener('click',e=>{if(e.target===gardenEl)closeGarden()});
 addEventListener('keydown',e=>{if(e.key==='Escape')closeGarden()});
 gardenFrame.addEventListener('load',()=>{try{gardenFrame.contentWindow.addEventListener('keydown',e=>{if(e.key==='Escape')closeGarden()})}catch(_){}});
-if(location.hash==='#garden') openGarden();
 
 // --- Flip clock (live time)
 {
@@ -1746,7 +1746,8 @@ let on=false; new IntersectionObserver(es=>{ on=es[0].isIntersecting; if(on) clo
 const ray=new THREE.Raycaster(), mp=new THREE.Vector2(), noteEl=document.getElementById('boatNote'); let noteT=0;
 cv.addEventListener('click',e=>{ const r=cv.getBoundingClientRect(); mp.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);
   ray.setFromCamera(mp,cam); const hit=ray.intersectObjects(boats.map(b=>b.m))[0];
-  if(!hit) return; const b=hit.object.userData.boat;
+  if(!hit){ openNote(); return; }   // tapping open water starts a new note; tapping a boat reads its note
+  const b=hit.object.userData.boat;
   noteEl.textContent=b.note||'An empty boat, still waiting for a note. Write one ↑';
   noteEl.style.left=(e.clientX-r.left)+'px'; noteEl.style.top=(e.clientY-r.top)+'px'; noteEl.classList.add('on');
   clearTimeout(noteT); noteT=setTimeout(()=>noteEl.classList.remove('on'),3200); });
