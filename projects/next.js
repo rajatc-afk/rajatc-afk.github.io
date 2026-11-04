@@ -39,6 +39,8 @@
   .nx-more a:hover{background:var(--nx-line)}
   .nx-more a img{width:32px;height:32px;border-radius:50%;object-fit:cover}
   .nx-more a.all{padding:8px 16px}
+  .nx-extra{margin-top:12px}
+  .nx-extra a img{object-position:50% 85%}
   body{--nx-bg:#f3f3f5;--nx-line:#e6e6ea;--nx-text:#141416;--nx-sub:#5c5c63;--nx-mute:#8e8e95;--nx-bgpage:#fff}
   body.dark{--nx-bg:#1a1a1c;--nx-line:#2a2a2d;--nx-text:#f4f1ec;--nx-sub:#a9a6a0;--nx-mute:#7a7a7f;--nx-bgpage:#0e0e0e}
   @media(max-width:760px){
@@ -67,6 +69,20 @@
       <a class="all" href="../index.html#work">All work</a>
     </div>
   </section>`);
+
+  // the other work from the Extras mat, read from the same list the mat uses (../extras/works.js)
+  const extras = document.createElement('script');
+  extras.src = '../extras/works.js';
+  extras.onload = () => {
+    const W = (window.WORKS || []).filter(w => w.pages);
+    if (!W.length) return;
+    document.querySelector('.nx').insertAdjacentHTML('beforeend', `
+    <div class="nx-more nx-extra">
+      <span>More work</span>
+      ${W.map(w => `<a href="../extras/view.html?w=${w.id}"><img src="../extras/${w.id}/card.webp" alt="" loading="lazy">${w.title}</a>`).join('')}
+    </div>`);
+  };
+  document.head.appendChild(extras);
 
   // the section rail belongs to the case study; fade it out once the "Up next" block is in view
   const nav = document.querySelector('.secnav');
