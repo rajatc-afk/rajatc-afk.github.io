@@ -163,8 +163,12 @@ button{font:inherit;color:inherit}
 .pj-title{font-size:22px;font-weight:600;line-height:1.28;color:var(--c-text);letter-spacing:-.01em}
 .pj-blurb{font-size:14px;line-height:1.5;color:var(--c-sub);margin-top:6px;max-height:0;overflow:hidden;transition:max-height .4s}
 .pj-item.on .pj-blurb{max-height:64px}
-.pj-hint{margin-top:auto;padding-top:16px;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--c-faint)}
-.pj-hint svg{width:14px;height:14px}
+.pj-more{all:unset;margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;cursor:pointer;
+  font-size:14px;font-weight:600;color:var(--c-text);background:#E4D2EE;transition:background .2s}
+.pj-more:hover{background:#d9c1e6}
+.pj-more svg{width:15px;height:15px;transition:transform .2s}
+.pj-more:hover svg{transform:translateX(3px)}
+.pj-more:focus-visible{outline:2px solid #7dd3fc;outline-offset:3px}
 .pj-stack{position:relative;width:480px;flex:none;overflow:hidden;border-radius:12px;cursor:ns-resize;touch-action:none}
 .pj-card{-webkit-user-drag:none;user-select:none;position:absolute;left:0;right:0;top:0;height:500px;border-radius:14px;overflow:hidden;will-change:transform;transform-origin:center top;
   box-shadow:none;text-decoration:none;color:#fff}
@@ -1074,7 +1078,7 @@ const proj={p:0,target:0,raf:0,el:null,snapT:0};
       <div class="pj-list">
         <div class="pj-head"><span class="pj-count"><span>01</span> / ${String(N).padStart(2,'0')}</span></div>
         <div class="pj-items">${P.map((x,i)=>`<button class="pj-item" data-i="${i}"><span class="pj-tag">${x.keywords||x.tag}</span><div class="pj-title">${x.title}</div><div class="pj-blurb">${x.blurb}</div></button>`).join('')}</div>
-        <div class="pj-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="3" width="10" height="18" rx="5"/><path d="M12 7v3"/></svg>Scroll the cards to explore</div>
+        <button class="pj-more" type="button" onclick="openPg()">More work<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
       </div>
       <div class="pj-stack">
         <div class="pj-edge" style="top:${28+500+5}px;transform:scaleX(.94)"></div><div class="pj-edge" style="top:${28+500+15}px;transform:scaleX(.88);background:var(--c-edge2)"></div>
